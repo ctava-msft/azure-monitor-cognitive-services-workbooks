@@ -1,4 +1,4 @@
-# Azure OpenAI & Cognitive Services — Cross‑Subscription Metrics Workbook
+# Azure OpenAI & Cognitive Services — Cross-Subscription Metrics Workbook
 
 An [Azure Monitor Workbook](https://learn.microsoft.com/azure/azure-monitor/visualize/workbooks-overview) that provides a **single pane of glass** for monitoring Azure OpenAI (including PTU deployments) and Cognitive Services metrics across **multiple Azure subscriptions**.
 
@@ -7,7 +7,7 @@ An [Azure Monitor Workbook](https://learn.microsoft.com/azure/azure-monitor/visu
 When Azure Cognitive Services resources are spread across many subscriptions, monitoring them consistently is difficult:
 
 - **Log Analytics gaps** — metrics may be ingested into different Log Analytics Workspaces, and some resources may have no workspace configured at all, leading to incomplete data.
-- **No single dashboard** — the Azure portal shows metrics per‑resource; there is no built‑in cross‑subscription view.
+- **No single dashboard** — the Azure portal shows metrics per-resource; there is no built-in cross-subscription view.
 
 This workbook solves both problems by querying **Azure Monitor platform metrics directly**. Platform metrics are emitted automatically by every Cognitive Services resource — no diagnostic settings, no Log Analytics Workspace, and no additional configuration required.
 
@@ -16,12 +16,12 @@ This workbook solves both problems by querying **Azure Monitor platform metrics 
 | Section | Description |
 |---|---|
 | **Resource Inventory** | Azure Resource Graph grid listing every `microsoft.cognitiveservices/accounts` resource across selected subscriptions |
-| **PTU Utilization** | `ProvisionedManagedUtilizationV2` — percentage of provisioned‑managed capacity consumed (PTU deployments only) |
+| **PTU Utilization** | `ProvisionedManagedUtilizationV2` — percentage of provisioned-managed capacity consumed (PTU deployments only) |
 | **Azure OpenAI Requests** | `AzureOpenAIRequests` — total Azure OpenAI API request count |
 | **Total Calls** | `TotalCalls` — total API calls across all Cognitive Services resource types |
 | **Token Usage** | `ProcessedPromptTokens`, `GeneratedTokens`, `TokenTransaction` — input/output token volume (Azure OpenAI) |
 | **Success vs Errors** | `SuccessfulCalls`, `TotalErrors`, `BlockedCalls` |
-| **Latency** | `Latency` — average end‑to‑end latency in milliseconds |
+| **Latency** | `Latency` — average end-to-end latency in milliseconds |
 | **Server & Client Errors** | `ServerErrors`, `ClientErrors` |
 | **Data Transfer** | `DataIn`, `DataOut` — bytes received and sent |
 
@@ -33,11 +33,11 @@ The workbook exposes the following interactive parameters at the top:
 
 | Parameter | Description |
 |---|---|
-| **Subscriptions** | Multi‑select picker for Azure subscriptions (defaults to all) |
-| **Resource Groups** | Multi‑select dropdown filtered to groups that contain Cognitive Services resources |
-| **Cognitive Services Resources** | Multi‑select resource picker filtered by the above selections |
+| **Subscriptions** | Multi-select picker for Azure subscriptions (defaults to all) |
+| **Resource Groups** | Multi-select dropdown filtered to groups that contain Cognitive Services resources |
+| **Cognitive Services Resources** | Multi-select resource picker filtered by the above selections |
 | **Time Range** | Standard time range selector (1 hour to 30 days, plus custom) |
-| **Aggregation** | Time grain for metric roll‑up (1 min – 1 day) |
+| **Aggregation** | Time grain for metric roll-up (1 min – 1 day) |
 
 ## Prerequisites
 
@@ -57,7 +57,7 @@ No additional roles are needed. Because the workbook uses platform metrics (not 
 - Enable diagnostic settings on each resource
 - Install any agents
 
-> **Note:** If you also want log‑level data (e.g., per‑request details), you can separately enable diagnostic settings to send logs to a Log Analytics Workspace, but this is *not* required for the metrics shown in this workbook.
+> **Note:** If you also want log-level data (e.g., per-request details), you can separately enable diagnostic settings to send logs to a Log Analytics Workspace, but this is *not* required for the metrics shown in this workbook.
 
 ## Deployment
 
@@ -103,8 +103,8 @@ New-AzResourceGroupDeployment `
 
 - **Add more metrics** — edit the `.workbook` file and add new `type: 10` (Metrics) items referencing any metric from the [supported metrics list](https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/microsoft-cognitiveservices-accounts-metrics).
 - **Add other resource types** — duplicate a metrics section and change `resourceType` and the parameter queries to target a different Azure resource type.
-- **Re‑generate the ARM template** — after editing the workbook JSON, update the `serializedData` field in `deploy/azuredeploy.json` with the minified workbook JSON string.
+- **Re-generate the ARM template** — after editing the workbook JSON, update the `serializedData` field in `deploy/azuredeploy.json` with the minified workbook JSON string.
 
 ## License
 
-This project is provided as‑is under the [MIT License](LICENSE).
+This project is provided as-is under the [MIT License](LICENSE).

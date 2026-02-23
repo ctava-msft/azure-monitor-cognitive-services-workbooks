@@ -4,7 +4,7 @@
     {
       "type": 1,
       "content": {
-        "json": "# Azure OpenAI & Cognitive Services — Cross‑Subscription Metrics\n\nThis workbook provides a **single pane of glass** for monitoring Azure OpenAI and Cognitive Services metrics across multiple subscriptions using **Azure Monitor Metrics directly** — no Log Analytics Workspace required.\n\n> **Why Azure Monitor Metrics instead of Log Analytics?**  Because platform metrics are emitted automatically for every Cognitive Services resource. There is no dependency on diagnostic settings or a shared Log Analytics Workspace, which eliminates gaps when resources span multiple workspaces or have no workspace configured.\n\nUse the parameters below to select subscriptions, resource groups, and specific resources."
+        "json": "# Azure OpenAI & Cognitive Services — Cross-Subscription Metrics\n\nThis workbook provides a **single pane of glass** for monitoring Azure OpenAI and Cognitive Services metrics across multiple subscriptions using **Azure Monitor Metrics directly** — no Log Analytics Workspace required.\n\n> **Why Azure Monitor Metrics instead of Log Analytics?**  Because platform metrics are emitted automatically for every Cognitive Services resource. There is no dependency on diagnostic settings or a shared Log Analytics Workspace, which eliminates gaps when resources span multiple workspaces or have no workspace configured.\n\nUse the parameters below to select subscriptions, resource groups, and specific resources."
       },
       "name": "workbook-header"
     },
@@ -238,7 +238,7 @@
     {
       "type": 1,
       "content": {
-        "json": "---\n## PTU Utilization\nProvisioned‑managed throughput utilization across selected Azure OpenAI resources. This metric shows the percentage of provisioned capacity being consumed and is critical for right‑sizing PTU deployments.\n\n> This metric is only emitted by **provisioned (PTU)** deployments. Pay‑as‑you‑go deployments will not report utilization."
+        "json": "---\n## PTU Utilization\nProvisioned-managed throughput utilization across selected Azure OpenAI resources. This metric shows the percentage of provisioned capacity being consumed and is critical for right-sizing PTU deployments.\n\n> This metric is only emitted by **provisioned (PTU)** deployments. Pay-as-you-go deployments will not report utilization."
       },
       "name": "ptu-utilization-header"
     },
@@ -266,7 +266,7 @@
             "splitBy": null
           }
         ],
-        "title": "Provisioned‑Managed Utilization V2 (avg %)",
+        "title": "Provisioned-Managed Utilization V2 (avg %)",
         "gridFormatType": 1,
         "tileSettings": {
           "showBorder": false
@@ -316,7 +316,7 @@
     {
       "type": 1,
       "content": {
-        "json": "---\n## Request Volume (All Cognitive Services)\nTotal API calls across all selected Cognitive Services resources (includes both OpenAI and non‑OpenAI resource types)."
+        "json": "---\n## Request Volume (All Cognitive Services)\nTotal API calls across all selected Cognitive Services resources (includes both OpenAI and non-OpenAI resource types)."
       },
       "name": "request-volume-header"
     },
