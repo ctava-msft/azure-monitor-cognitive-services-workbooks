@@ -481,6 +481,77 @@
     {
       "type": 1,
       "content": {
+        "json": "---\n## Token Utilization % (Azure OpenAI)\nPercentage of provisioned token capacity consumed, broken down by **input (prompt)** and **output (generated)** tokens. These metrics show how efficiently PTU deployments are utilizing their allocated capacity.\n\n> These metrics are only emitted by **provisioned (PTU)** deployments. Pay-as-you-go deployments will not report token utilization percentages."
+      },
+      "name": "token-utilization-pct-header"
+    },
+    {
+      "type": 10,
+      "content": {
+        "chartId": "workbookaa1bb2cc-3dd4-5ee6-7ff8-990011223344",
+        "version": "MetricsItem/2.0",
+        "size": 0,
+        "chartType": 2,
+        "resourceType": "microsoft.cognitiveservices/accounts",
+        "metricScope": 0,
+        "resourceIds": [
+          "{Resources}"
+        ],
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "TimeRange",
+        "metrics": [
+          {
+            "namespace": "microsoft.cognitiveservices/accounts",
+            "metric": "microsoft.cognitiveservices/accounts-AllMetrics-ProvisionedManagedInputUtilizationV2",
+            "aggregation": 4,
+            "splitBy": null
+          }
+        ],
+        "title": "Input Token Utilization % (avg)",
+        "gridFormatType": 1,
+        "tileSettings": {
+          "showBorder": false
+        }
+      },
+      "name": "input-token-utilization-chart"
+    },
+    {
+      "type": 10,
+      "content": {
+        "chartId": "workbookbb2cc3dd-4ee5-6ff7-8009-aabbccddeeff",
+        "version": "MetricsItem/2.0",
+        "size": 0,
+        "chartType": 2,
+        "resourceType": "microsoft.cognitiveservices/accounts",
+        "metricScope": 0,
+        "resourceIds": [
+          "{Resources}"
+        ],
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "TimeRange",
+        "metrics": [
+          {
+            "namespace": "microsoft.cognitiveservices/accounts",
+            "metric": "microsoft.cognitiveservices/accounts-AllMetrics-ProvisionedManagedOutputUtilizationV2",
+            "aggregation": 4,
+            "splitBy": null
+          }
+        ],
+        "title": "Output Token Utilization % (avg)",
+        "gridFormatType": 1,
+        "tileSettings": {
+          "showBorder": false
+        }
+      },
+      "name": "output-token-utilization-chart"
+    },
+    {
+      "type": 1,
+      "content": {
         "json": "---\n## Data Transfer\nIncoming and outgoing data volume."
       },
       "name": "data-transfer-header"
