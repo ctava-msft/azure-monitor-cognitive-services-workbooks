@@ -4,7 +4,7 @@
     {
       "type": 1,
       "content": {
-        "json": "# Azure OpenAI & Cognitive Services — Cross-Subscription Metrics\n\nThis workbook provides a **single pane of glass** for monitoring Azure OpenAI and Cognitive Services metrics across multiple subscriptions using **Azure Monitor Metrics directly** — no Log Analytics Workspace required.\n\n> **Why Azure Monitor Metrics instead of Log Analytics?**  Because platform metrics are emitted automatically for every Cognitive Services resource. There is no dependency on diagnostic settings or a shared Log Analytics Workspace, which eliminates gaps when resources span multiple workspaces or have no workspace configured.\n\nUse the parameters below to select subscriptions, resource groups, and specific resources."
+        "json": "# Azure OpenAI & Cognitive Services \u2014 Cross-Subscription Metrics\n\nThis workbook provides a **single pane of glass** for monitoring Azure OpenAI and Cognitive Services metrics across multiple subscriptions using **Azure Monitor Metrics directly** \u2014 no Log Analytics Workspace required.\n\n> **Why Azure Monitor Metrics instead of Log Analytics?**  Because platform metrics are emitted automatically for every Cognitive Services resource. There is no dependency on diagnostic settings or a shared Log Analytics Workspace, which eliminates gaps when resources span multiple workspaces or have no workspace configured.\n\nUse the parameters below to select subscriptions, resource groups, and specific resources."
       },
       "name": "workbook-header"
     },
@@ -120,6 +120,48 @@
             },
             "jsonData": "[{\"value\":\"PT1M\",\"label\":\"1 minute\"},{\"value\":\"PT5M\",\"label\":\"5 minutes\"},{\"value\":\"PT15M\",\"label\":\"15 minutes\"},{\"value\":\"PT30M\",\"label\":\"30 minutes\"},{\"value\":\"PT1H\",\"label\":\"1 hour\"},{\"value\":\"PT6H\",\"label\":\"6 hours\"},{\"value\":\"PT12H\",\"label\":\"12 hours\"},{\"value\":\"P1D\",\"label\":\"1 day\"}]",
             "value": "PT1H"
+          },
+          {
+            "id": "a1b2c3d4-e5f6-7890-abcd-111111111111",
+            "version": "KqlParameterItem/1.0",
+            "name": "ModelName",
+            "label": "Model Name",
+            "type": 2,
+            "description": "Filter by model name (e.g. gpt-4o, gpt-4)",
+            "isRequired": true,
+            "multiSelect": true,
+            "showDefault": false,
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "value": [
+              "value::all"
+            ],
+            "jsonData": "[{\"value\": \"gpt-4o\", \"label\": \"gpt-4o\", \"selected\": true}, {\"value\": \"gpt-4o-mini\", \"label\": \"gpt-4o-mini\", \"selected\": true}, {\"value\": \"gpt-5.1\", \"label\": \"gpt-5.1\", \"selected\": true}, {\"value\": \"gpt-5.2-chat\", \"label\": \"gpt-5.2-chat\", \"selected\": true}, {\"value\": \"text-embedding-3-large\", \"label\": \"text-embedding-3-large\", \"selected\": true}]"
+          },
+          {
+            "id": "b2c3d4e5-f6a7-8901-bcde-222222222222",
+            "version": "KqlParameterItem/1.0",
+            "name": "ModelDeploymentName",
+            "label": "Model Deployment",
+            "type": 2,
+            "description": "Filter by deployment name",
+            "isRequired": true,
+            "multiSelect": true,
+            "showDefault": false,
+            "typeSettings": {
+              "additionalResourceOptions": [
+                "value::all"
+              ],
+              "showDefault": false
+            },
+            "value": [
+              "value::all"
+            ],
+            "jsonData": "[{\"value\": \"gpt-4o\", \"label\": \"gpt-4o  (f-1)\", \"selected\": true, \"group\": \"gpt-4o\"}, {\"value\": \"gpt-4o-batch\", \"label\": \"gpt-4o-batch  (aoai-euwsdgsvknhk2)\", \"selected\": true, \"group\": \"gpt-4o\"}, {\"value\": \"gpt-4o-mini\", \"label\": \"gpt-4o-mini  (f-1)\", \"selected\": true, \"group\": \"gpt-4o-mini\"}, {\"value\": \"gpt-4o-mini\", \"label\": \"gpt-4o-mini  (cog-3aa6nbg5qypnk)\", \"selected\": true, \"group\": \"gpt-4o-mini\"}, {\"value\": \"gpt-5.1\", \"label\": \"gpt-5.1  (f-1)\", \"selected\": true, \"group\": \"gpt-5.1\"}, {\"value\": \"gpt-5.2-chat\", \"label\": \"gpt-5.2-chat  (f-1)\", \"selected\": true, \"group\": \"gpt-5.2-chat\"}, {\"value\": \"gpt-5.2-chat\", \"label\": \"gpt-5.2-chat  (mlw-foundry-q72ip32654zma)\", \"selected\": true, \"group\": \"gpt-5.2-chat\"}, {\"value\": \"gpt-5.2-chat\", \"label\": \"gpt-5.2-chat  (cog-3aa6nbg5qypnk)\", \"selected\": true, \"group\": \"gpt-5.2-chat\"}, {\"value\": \"gpt-5.2-chat-batch\", \"label\": \"gpt-5.2-chat-batch  (mlw-foundry-euwsdgsvknhk2)\", \"selected\": true, \"group\": \"gpt-5.2-chat\"}, {\"value\": \"text-embedding-3-large\", \"label\": \"text-embedding-3-large  (f-1)\", \"selected\": true, \"group\": \"text-embedding-3-large\"}, {\"value\": \"text-embedding-3-large\", \"label\": \"text-embedding-3-large  (cog-3aa6nbg5qypnk)\", \"selected\": true, \"group\": \"text-embedding-3-large\"}]"
           }
         ],
         "style": "above",
@@ -127,6 +169,95 @@
         "resourceType": "microsoft.resourcegraph/resources"
       },
       "name": "parameters"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "---\n## Model Deployments\nAzure OpenAI model deployments across selected resources, shown by token transaction volume per deployment name.\n\n> The **Model Name** and **Model Deployment** dropdowns are populated from **Azure Resource Graph** (the ARM control plane) and list all deployments regardless of whether they have metrics in the selected time range. Charts below will only display data for deployments that had traffic in the selected period."
+      },
+      "name": "model-deployments-header"
+    },
+    {
+      "type": 10,
+      "content": {
+        "chartId": "workbookcc1dd2ee-3ff4-5aa6-7bb8-cc00dd11ee22",
+        "version": "MetricsItem/2.0",
+        "size": 0,
+        "chartType": 2,
+        "resourceType": "microsoft.cognitiveservices/accounts",
+        "metricScope": 0,
+        "resourceIds": [
+          "{Resources}"
+        ],
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "TimeRange",
+        "metrics": [
+          {
+            "namespace": "microsoft.cognitiveservices/accounts",
+            "metric": "microsoft.cognitiveservices/accounts-AllMetrics-TokenTransaction",
+            "aggregation": 1,
+            "splitBy": "ModelDeploymentName",
+            "filters": [
+              {
+                "key": "ModelDeploymentName",
+                "operator": 0,
+                "values": [
+                  "{ModelDeploymentName}"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "Token Transactions by Model Deployment",
+        "gridFormatType": 1,
+        "tileSettings": {
+          "showBorder": false
+        }
+      },
+      "name": "model-deployments-chart"
+    },
+    {
+      "type": 10,
+      "content": {
+        "chartId": "workbookdd2ee3ff-4aa5-6bb7-8cc9-dd00ee11ff22",
+        "version": "MetricsItem/2.0",
+        "size": 0,
+        "chartType": 2,
+        "resourceType": "microsoft.cognitiveservices/accounts",
+        "metricScope": 0,
+        "resourceIds": [
+          "{Resources}"
+        ],
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "TimeRange",
+        "metrics": [
+          {
+            "namespace": "microsoft.cognitiveservices/accounts",
+            "metric": "microsoft.cognitiveservices/accounts-AllMetrics-AzureOpenAIRequests",
+            "aggregation": 1,
+            "splitBy": "ModelDeploymentName",
+            "filters": [
+              {
+                "key": "ModelDeploymentName",
+                "operator": 0,
+                "values": [
+                  "{ModelDeploymentName}"
+                ]
+              }
+            ]
+          }
+        ],
+        "title": "Requests by Model Deployment",
+        "gridFormatType": 1,
+        "tileSettings": {
+          "showBorder": false
+        }
+      },
+      "name": "model-deployments-requests-chart"
     },
     {
       "type": 1,
@@ -212,77 +343,6 @@
     {
       "type": 1,
       "content": {
-        "json": "---\n## Model Deployments\nActive Azure OpenAI model deployments across selected resources, shown by token transaction volume per deployment name.\n\n> Deployments that had **no traffic** in the selected time range will not appear. Adjust the time range to see deployments that were active in a different period."
-      },
-      "name": "model-deployments-header"
-    },
-    {
-      "type": 10,
-      "content": {
-        "chartId": "workbookcc1dd2ee-3ff4-5aa6-7bb8-cc00dd11ee22",
-        "version": "MetricsItem/2.0",
-        "size": 0,
-        "chartType": 2,
-        "resourceType": "microsoft.cognitiveservices/accounts",
-        "metricScope": 0,
-        "resourceIds": [
-          "{Resources}"
-        ],
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "TimeRange",
-        "metrics": [
-          {
-            "namespace": "microsoft.cognitiveservices/accounts",
-            "metric": "microsoft.cognitiveservices/accounts-AllMetrics-TokenTransaction",
-            "aggregation": 1,
-            "splitBy": "ModelDeploymentName"
-          }
-        ],
-        "title": "Token Transactions by Model Deployment",
-        "gridFormatType": 1,
-        "tileSettings": {
-          "showBorder": false
-        }
-      },
-      "name": "model-deployments-chart"
-    },
-    {
-      "type": 10,
-      "content": {
-        "chartId": "workbookdd2ee3ff-4aa5-6bb7-8cc9-dd00ee11ff22",
-        "version": "MetricsItem/2.0",
-        "size": 0,
-        "chartType": 2,
-        "resourceType": "microsoft.cognitiveservices/accounts",
-        "metricScope": 0,
-        "resourceIds": [
-          "{Resources}"
-        ],
-        "timeContext": {
-          "durationMs": 0
-        },
-        "timeContextFromParameter": "TimeRange",
-        "metrics": [
-          {
-            "namespace": "microsoft.cognitiveservices/accounts",
-            "metric": "microsoft.cognitiveservices/accounts-AllMetrics-AzureOpenAIRequests",
-            "aggregation": 1,
-            "splitBy": "ModelDeploymentName"
-          }
-        ],
-        "title": "Requests by Model Deployment",
-        "gridFormatType": 1,
-        "tileSettings": {
-          "showBorder": false
-        }
-      },
-      "name": "model-deployments-requests-chart"
-    },
-    {
-      "type": 1,
-      "content": {
         "json": "---\n## PTU Utilization\nProvisioned-managed throughput utilization across selected Azure OpenAI resources. This metric shows the percentage of provisioned capacity being consumed and is critical for right-sizing PTU deployments.\n\n> This metric is only emitted by **provisioned (PTU)** deployments. Pay-as-you-go deployments will not report utilization."
       },
       "name": "ptu-utilization-header"
@@ -308,7 +368,16 @@
             "namespace": "microsoft.cognitiveservices/accounts",
             "metric": "microsoft.cognitiveservices/accounts-AllMetrics-ProvisionedManagedUtilizationV2",
             "aggregation": 4,
-            "splitBy": null
+            "splitBy": null,
+            "filters": [
+              {
+                "key": "ModelDeploymentName",
+                "operator": 0,
+                "values": [
+                  "{ModelDeploymentName}"
+                ]
+              }
+            ]
           }
         ],
         "title": "Provisioned-Managed Utilization V2 (avg %)",
@@ -347,7 +416,16 @@
             "namespace": "microsoft.cognitiveservices/accounts",
             "metric": "microsoft.cognitiveservices/accounts-AllMetrics-AzureOpenAIRequests",
             "aggregation": 1,
-            "splitBy": null
+            "splitBy": null,
+            "filters": [
+              {
+                "key": "ModelDeploymentName",
+                "operator": 0,
+                "values": [
+                  "{ModelDeploymentName}"
+                ]
+              }
+            ]
           }
         ],
         "title": "Azure OpenAI Requests (sum)",
@@ -526,19 +604,46 @@
             "namespace": "microsoft.cognitiveservices/accounts",
             "metric": "microsoft.cognitiveservices/accounts-AllMetrics-ProcessedPromptTokens",
             "aggregation": 1,
-            "splitBy": null
+            "splitBy": null,
+            "filters": [
+              {
+                "key": "ModelDeploymentName",
+                "operator": 0,
+                "values": [
+                  "{ModelDeploymentName}"
+                ]
+              }
+            ]
           },
           {
             "namespace": "microsoft.cognitiveservices/accounts",
             "metric": "microsoft.cognitiveservices/accounts-AllMetrics-GeneratedTokens",
             "aggregation": 1,
-            "splitBy": null
+            "splitBy": null,
+            "filters": [
+              {
+                "key": "ModelDeploymentName",
+                "operator": 0,
+                "values": [
+                  "{ModelDeploymentName}"
+                ]
+              }
+            ]
           },
           {
             "namespace": "microsoft.cognitiveservices/accounts",
             "metric": "microsoft.cognitiveservices/accounts-AllMetrics-TokenTransaction",
             "aggregation": 1,
-            "splitBy": null
+            "splitBy": null,
+            "filters": [
+              {
+                "key": "ModelDeploymentName",
+                "operator": 0,
+                "values": [
+                  "{ModelDeploymentName}"
+                ]
+              }
+            ]
           }
         ],
         "title": "Token Usage (Prompt, Generated, Transactions)",
@@ -577,7 +682,16 @@
             "namespace": "microsoft.cognitiveservices/accounts",
             "metric": "microsoft.cognitiveservices/accounts-AllMetrics-ProvisionedManagedInputUtilizationV2",
             "aggregation": 4,
-            "splitBy": null
+            "splitBy": null,
+            "filters": [
+              {
+                "key": "ModelDeploymentName",
+                "operator": 0,
+                "values": [
+                  "{ModelDeploymentName}"
+                ]
+              }
+            ]
           }
         ],
         "title": "Input Token Utilization % (avg)",
@@ -609,7 +723,16 @@
             "namespace": "microsoft.cognitiveservices/accounts",
             "metric": "microsoft.cognitiveservices/accounts-AllMetrics-ProvisionedManagedOutputUtilizationV2",
             "aggregation": 4,
-            "splitBy": null
+            "splitBy": null,
+            "filters": [
+              {
+                "key": "ModelDeploymentName",
+                "operator": 0,
+                "values": [
+                  "{ModelDeploymentName}"
+                ]
+              }
+            ]
           }
         ],
         "title": "Output Token Utilization % (avg)",
