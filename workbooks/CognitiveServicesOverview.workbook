@@ -212,6 +212,77 @@
     {
       "type": 1,
       "content": {
+        "json": "---\n## Model Deployments\nActive Azure OpenAI model deployments across selected resources, shown by token transaction volume per deployment name.\n\n> Deployments that had **no traffic** in the selected time range will not appear. Adjust the time range to see deployments that were active in a different period."
+      },
+      "name": "model-deployments-header"
+    },
+    {
+      "type": 10,
+      "content": {
+        "chartId": "workbookcc1dd2ee-3ff4-5aa6-7bb8-cc00dd11ee22",
+        "version": "MetricsItem/2.0",
+        "size": 0,
+        "chartType": 2,
+        "resourceType": "microsoft.cognitiveservices/accounts",
+        "metricScope": 0,
+        "resourceIds": [
+          "{Resources}"
+        ],
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "TimeRange",
+        "metrics": [
+          {
+            "namespace": "microsoft.cognitiveservices/accounts",
+            "metric": "microsoft.cognitiveservices/accounts-AllMetrics-TokenTransaction",
+            "aggregation": 1,
+            "splitBy": "ModelDeploymentName"
+          }
+        ],
+        "title": "Token Transactions by Model Deployment",
+        "gridFormatType": 1,
+        "tileSettings": {
+          "showBorder": false
+        }
+      },
+      "name": "model-deployments-chart"
+    },
+    {
+      "type": 10,
+      "content": {
+        "chartId": "workbookdd2ee3ff-4aa5-6bb7-8cc9-dd00ee11ff22",
+        "version": "MetricsItem/2.0",
+        "size": 0,
+        "chartType": 2,
+        "resourceType": "microsoft.cognitiveservices/accounts",
+        "metricScope": 0,
+        "resourceIds": [
+          "{Resources}"
+        ],
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "TimeRange",
+        "metrics": [
+          {
+            "namespace": "microsoft.cognitiveservices/accounts",
+            "metric": "microsoft.cognitiveservices/accounts-AllMetrics-AzureOpenAIRequests",
+            "aggregation": 1,
+            "splitBy": "ModelDeploymentName"
+          }
+        ],
+        "title": "Requests by Model Deployment",
+        "gridFormatType": 1,
+        "tileSettings": {
+          "showBorder": false
+        }
+      },
+      "name": "model-deployments-requests-chart"
+    },
+    {
+      "type": 1,
+      "content": {
         "json": "---\n## PTU Utilization\nProvisioned-managed throughput utilization across selected Azure OpenAI resources. This metric shows the percentage of provisioned capacity being consumed and is critical for right-sizing PTU deployments.\n\n> This metric is only emitted by **provisioned (PTU)** deployments. Pay-as-you-go deployments will not report utilization."
       },
       "name": "ptu-utilization-header"
