@@ -38,32 +38,6 @@
             ]
           },
           {
-            "id": "b616a3a3-4271-4208-b1a9-a2a43f7a2e1c",
-            "version": "KqlParameterItem/1.0",
-            "name": "ResourceGroups",
-            "label": "Resource Groups",
-            "type": 2,
-            "description": "Select one or more resource groups",
-            "isRequired": false,
-            "multiSelect": true,
-            "showDefault": false,
-            "query": "Resources\n| where type =~ 'microsoft.cognitiveservices/accounts'\n| summarize by resourceGroup\n| order by resourceGroup asc\n| project id=resourceGroup, label=resourceGroup",
-            "crossComponentResources": [
-              "{Subscriptions}"
-            ],
-            "typeSettings": {
-              "additionalResourceOptions": [
-                "value::all"
-              ],
-              "showDefault": false
-            },
-            "queryType": 1,
-            "resourceType": "microsoft.resourcegraph/resources",
-            "value": [
-              "value::all"
-            ]
-          },
-          {
             "id": "0e85e0e4-a7e8-4ea8-b291-e444c317843a",
             "version": "KqlParameterItem/1.0",
             "name": "Resources",
@@ -73,7 +47,7 @@
             "isRequired": true,
             "multiSelect": true,
             "showDefault": false,
-            "query": "Resources\n| where type =~ 'microsoft.cognitiveservices/accounts'\n| where '*' in ({ResourceGroups}) or resourceGroup in ({ResourceGroups})\n| order by name asc\n| extend Rank = row_number()\n| project value = id, label = name, selected = Rank <= 10, group = resourceGroup",
+            "query": "Resources\n| where type =~ 'microsoft.cognitiveservices/accounts'\n| order by name asc\n| extend Rank = row_number()\n| project value = id, label = name, selected = Rank <= 10, group = resourceGroup",
             "crossComponentResources": [
               "{Subscriptions}"
             ],
@@ -165,7 +139,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Resources\n| where type =~ 'microsoft.cognitiveservices/accounts'\n| where '*' in ({ResourceGroups}) or resourceGroup in ({ResourceGroups})\n| project Resource=name, ['Resource Group']=resourceGroup, Location=location, Kind=kind, SKU=sku.name, Subscription=subscriptionId\n| order by Resource asc",
+        "query": "Resources\n| where type =~ 'microsoft.cognitiveservices/accounts'\n| project Resource=name, ['Resource Group']=resourceGroup, Location=location, Kind=kind, SKU=sku.name, Subscription=subscriptionId\n| order by Resource asc",
         "size": 0,
         "showAnalytics": true,
         "title": "Cognitive Services Resources",
